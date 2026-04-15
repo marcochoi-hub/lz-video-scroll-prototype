@@ -75,7 +75,13 @@ body {
   --text-op: 1;
 
   will-change: width, height, top, left;
+
+  /* Hidden until JS snaps the card into its rest slot. Prevents any flash
+     of intermediate position (e.g. if ScrollTrigger evaluates non-zero
+     progress before the first paint). JS adds .is-ready to reveal. */
+  visibility: hidden;
 }
+.video-card.is-ready { visibility: visible; }
 .video-card:focus-visible {
   outline: 3px solid #ffd166;
   outline-offset: 3px;

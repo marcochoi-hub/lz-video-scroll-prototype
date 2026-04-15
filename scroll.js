@@ -98,6 +98,9 @@ if (!window.gsap || !window.ScrollTrigger) {
       });
     };
     snapToSlot();
+    // Reveal the card only after it's snapped to the rest slot — prevents
+    // any flash of intermediate position on first paint.
+    card.classList.add("is-ready");
     ScrollTrigger.addEventListener("refreshInit", snapToSlot);
     // Also re-snap once the page is fully loaded (images / video metadata can
     // shift the slot's computed position after first paint).
@@ -175,6 +178,7 @@ if (!window.gsap || !window.ScrollTrigger) {
   /* ------------------------------------------------------------------ */
   mm.add("(max-width: 767px), (prefers-reduced-motion: reduce)", () => {
     gsap.set(card, { clearProps: "top,left,width,height,--media-pct,--text-op" });
+    card.classList.add("is-ready");
     video.play?.().catch(() => {});
     return () => {};
   });
