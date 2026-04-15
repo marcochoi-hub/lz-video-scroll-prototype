@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Video card scroll prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fustat:wght@300;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HERO — cream background only. The card sits on top in its rest slot. -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero__card-slot" aria-hidden="true"></div>
+  </section>
+
+  <!-- Video card (position:fixed, JS syncs to .hero__card-slot at rest) -->
+  <button class="video-card" id="videoCard" type="button"
+          aria-label="Open brand video in full screen">
+    <div class="video-card__inner">
+      <div class="video-card__media" id="videoMedia">
+        <video class="video-card__video" id="brandVideo"
+               autoplay muted loop playsinline preload="auto"
+               src="assets/brand-video.mp4"></video>
+      </div>
+      <div class="video-card__text" id="videoText">
+        <p class="video-card__title">Meet our people</p>
+        <p class="video-card__body">
+          Reliably expert.<br />
+          Refreshingly human.<br />
+          Always reachable.
+        </p>
+      </div>
+    </div>
+
+    <span class="video-card__play" aria-hidden="true">
+      <span class="video-card__play-label">Play</span>
+      <span class="video-card__play-icon">
+        <svg viewBox="0 0 8 8" width="8" height="8">
+          <polygon points="1,0 7,4 1,8" fill="currentColor" />
+        </svg>
+      </span>
+    </span>
+  </button>
+
+  <!-- Scroll spacer drives the animation progress -->
+  <section class="scroll-spacer" aria-hidden="true"></section>
+
+  <!-- Navy section below the cream hero -->
+  <section class="next" aria-label="Next section">
+    <div class="next__inner">
+      <h2>What we do</h2>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="scroll.js"></script>
+</body>
+</html>

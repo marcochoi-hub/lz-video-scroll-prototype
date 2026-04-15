@@ -1,0 +1,221 @@
+/* ==========================================================================
+   Base
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Fustat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #0b1534;
+  background: #FFF3EB;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --color-bg-inverse:    #0b1534;
+  --color-text-inverse:  #ffffff;
+  --color-text-tertiary: #8790ab;
+  --color-brand-dark:    #0b1534;
+
+  --radius-md: 8px;
+  --radius-sm: 4px;
+
+  --pad-5xs: 4px;
+  --pad-4xs: 8px;
+  --pad-3xs: 12px;
+  --pad-2xs: 16px;
+
+  --gap-4xs: 8px;
+  --gap-3xs: 12px;
+
+  --h5-size: 24px;
+  --h5-lh:   32px;
+  --body-default-size: 18px;
+  --body-default-lh:   28px;
+  --body-xs-size: 14px;
+  --body-xs-lh:   20px;
+}
+
+/* ==========================================================================
+   Hero — cream backdrop with the card's rest slot
+   ========================================================================== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 720px;
+  background: #FFF3EB;
+  overflow: hidden;
+}
+.hero__card-slot {
+  position: absolute;
+  left: 40px;
+  bottom: 40px;
+  width: 401px;
+  height: 196px;
+  max-width: calc(100% - 80px);
+}
+
+/* ==========================================================================
+   Video card — position:fixed, rest rect synced to .hero__card-slot by JS.
+   ========================================================================== */
+.video-card {
+  position: fixed;
+  top: 0; left: 0;
+  width: 401px;
+  height: 196px;
+  z-index: 10;
+
+  background: var(--color-bg-inverse);
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: var(--pad-4xs);
+  margin: 0;
+  color: var(--color-text-inverse);
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+
+  --media-pct: 46.75%;
+  --text-op: 1;
+
+  will-change: width, height, top, left;
+}
+.video-card:focus-visible {
+  outline: 3px solid #ffd166;
+  outline-offset: 3px;
+}
+
+.video-card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-card__media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--media-pct);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #000;
+  will-change: width;
+}
+.video-card__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-card__text {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: calc(var(--media-pct) + 12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--gap-4xs);
+  padding: var(--pad-3xs) var(--pad-2xs);
+  color: var(--color-text-inverse);
+  opacity: var(--text-op);
+  overflow: hidden;
+  pointer-events: none;
+  will-change: opacity;
+}
+.video-card__title {
+  margin: 0;
+  font-family: "Clash Display", "Fustat", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--h5-size);
+  line-height: var(--h5-lh);
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+}
+.video-card__body {
+  margin: 0;
+  font-family: "Fustat", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 300;
+  font-size: var(--body-default-size);
+  line-height: var(--body-default-lh);
+  white-space: nowrap;
+}
+
+.video-card__play {
+  position: absolute;
+  top: var(--pad-4xs);
+  left: var(--pad-4xs);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-4xs);
+  padding: var(--pad-5xs) var(--pad-3xs);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-tertiary);
+  border-top: 1px solid var(--color-brand-dark);
+  border-left: 1px solid var(--color-brand-dark);
+  border-bottom-right-radius: var(--radius-md);
+  font-family: "Fustat", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--body-xs-size);
+  line-height: var(--body-xs-lh);
+  z-index: 2;
+  pointer-events: none;
+}
+.video-card__play-label { white-space: nowrap; }
+.video-card__play-icon {
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+  color: var(--color-text-tertiary);
+}
+
+/* ==========================================================================
+   Scroll spacer + navy next section
+   ========================================================================== */
+.scroll-spacer { height: 220vh; }
+
+.next {
+  position: relative;
+  z-index: 20;
+  background: #0b1534;
+  color: #f6f5f1;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 80px 40px;
+}
+.next__inner { max-width: 720px; text-align: center; }
+.next h2 { font-size: clamp(32px, 4vw, 56px); margin: 0; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 767px) {
+  .scroll-spacer { height: 0; }
+  .video-card {
+    position: relative;
+    top: auto; left: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 401 / 196;
+  }
+  .hero__card-slot { position: static; width: 100%; max-width: 401px; margin: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-spacer { height: 0; }
+  .video-card {
+    position: relative;
+    top: auto; left: auto;
+    width: 100%;
+    max-width: 401px;
+    height: auto;
+    aspect-ratio: 401 / 196;
+  }
+}
