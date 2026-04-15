@@ -141,6 +141,7 @@ if (!window.gsap || !window.ScrollTrigger) {
       {
         top: () => -endRect().height,
         ease: "none",
+        immediateRender: false,   /* critical: do NOT snap to endRect on load */
         scrollTrigger: {
           trigger: ".next",
           start: () => `top ${endRect().top + endRect().height}px`,
