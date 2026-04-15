@@ -116,6 +116,17 @@ if (!window.gsap || !window.ScrollTrigger) {
     window.addEventListener("load", () => {
       snapToSlot();
       ScrollTrigger.refresh();
+      // Self-correcting nudge: scroll 1px then back to 0. This forces the
+      // scrubbed timeline to tick at a known scroll position and settle at
+      // progress 0, which reliably flushes any stale interpolation state left
+      // over from page load or a mid-page refresh.
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 1);
+        requestAnimationFrame(() => {
+          window.scrollTo(0, 0);
+          snapToSlot();
+        });
+      });
     });
 
     const tl = gsap.timeline({
