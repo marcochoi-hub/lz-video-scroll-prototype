@@ -14,7 +14,18 @@
  * based values that re-resolve on ScrollTrigger.refresh().
  */
 
-console.log("[scroll] boot", { gsap: !!window.gsap, ST: !!window.ScrollTrigger });
+console.log("[scroll] boot", {
+  gsap: !!window.gsap,
+  ST: !!window.ScrollTrigger,
+  scrollY: window.scrollY,
+  vh: window.innerHeight,
+});
+
+// Disable browser scroll-restoration so a reload always starts at y=0.
+// Without this, a mid-animation scroll position gets restored on refresh
+// and the card renders mid-animation instead of at its bottom-left rest.
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.scrollTo(0, 0);
 
 if (!window.gsap || !window.ScrollTrigger) {
   console.error("[scroll] GSAP / ScrollTrigger failed to load.");
