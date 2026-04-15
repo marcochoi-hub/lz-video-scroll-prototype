@@ -46,21 +46,17 @@ body {
   background: #FFF3EB;
   overflow: hidden;
 }
-.hero__card-slot {
-  position: absolute;
-  left: 40px;
-  bottom: 40px;
-  width: 401px;
-  height: 196px;
-  max-width: calc(100% - 80px);
-}
 
 /* ==========================================================================
    Video card — position:fixed, rest rect synced to .hero__card-slot by JS.
    ========================================================================== */
 .video-card {
+  /* Rest position: bottom-left of viewport, 40px inset, 401×196.
+     Uses bottom/left so CSS alone gets this right on first paint; JS then
+     switches to top/left during the scroll animation. */
   position: fixed;
-  top: 0; left: 0;
+  bottom: 40px;
+  left: 40px;
   width: 401px;
   height: 196px;
   z-index: 10;
@@ -205,12 +201,12 @@ body {
   .scroll-spacer { height: 0; }
   .video-card {
     position: relative;
-    top: auto; left: auto;
+    top: auto; left: auto; bottom: auto;
     width: 100%;
     height: auto;
     aspect-ratio: 401 / 196;
+    margin: 40px;
   }
-  .hero__card-slot { position: static; width: 100%; max-width: 401px; margin: 40px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

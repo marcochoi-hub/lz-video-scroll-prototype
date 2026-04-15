@@ -23,15 +23,28 @@ if (!window.gsap || !window.ScrollTrigger) {
 
   const card  = document.getElementById("videoCard");
   const video = document.getElementById("brandVideo");
-  const slot  = document.querySelector(".hero__card-slot");
 
   /* ------------------------------------------------------------------ */
   /*  Geometry                                                          */
+  /*  Computed from viewport directly — no DOM-measurement dependency.  */
+  /*  Rest rect = bottom-left, 40px inset, 401×196 (shrinks on narrow   */
+  /*  viewports so it never overflows).                                 */
   /* ------------------------------------------------------------------ */
 
+  const INSET = 40;
+  const REST_W = 401;
+  const REST_H = 196;
+
   function startRect() {
-    const s = slot.getBoundingClientRect();
-    return { top: s.top, left: s.left, width: s.width, height: s.height };
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const w = Math.min(REST_W, vw - INSET * 2);
+    const h = w * (REST_H / REST_W);
+    return {
+      left: INSET,
+      top:  vh - INSET - h,
+      width:  w,
+      height: h,
+    };
   }
 
   function endRect() {
@@ -68,6 +81,7 @@ if (!window.gsap || !window.ScrollTrigger) {
       const r = startRect();
       gsap.set(card, {
         top: r.top, left: r.left, width: r.width, height: r.height,
+        bottom: "auto", right: "auto",
         "--media-pct": restMediaPct() + "%",
         "--text-op": 1,
       });
