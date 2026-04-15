@@ -101,7 +101,16 @@ if (!window.gsap || !window.ScrollTrigger) {
     // Reveal the card only after it's snapped to the rest slot — prevents
     // any flash of intermediate position on first paint.
     card.classList.add("is-ready");
-    ScrollTrigger.addEventListener("refreshInit", snapToSlot);
+
+    // After every ScrollTrigger refresh (including resizes), re-snap the card
+    // to its rest slot IF we're at the top of the page. We listen on "refresh"
+    // (not "refreshInit") so this runs AFTER the timeline has re-rendered —
+    // otherwise the scrubbed timeline would overwrite our snap with stale
+    // pixel values carried over from the previous viewport size.
+    const snapIfAtRest = () => {
+      if (window.scrollY < 2) snapToSlot();
+    };
+    ScrollTrigger.addEventListener("refresh", snapIfAtRest);
     // Also re-snap once the page is fully loaded (images / video metadata can
     // shift the slot's computed position after first paint).
     window.addEventListener("load", () => {
