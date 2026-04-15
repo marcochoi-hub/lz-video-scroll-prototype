@@ -59,6 +59,28 @@ if (!window.gsap || !window.ScrollTrigger) {
 
     video.play?.().catch(() => {});
 
+    /* Snap the card to its rest rect BEFORE any ScrollTrigger evaluates.
+       Without this, the card's CSS defaults (top:0, left:0) remain on first
+       paint because scrub tweens don't resolve function-based "from" values
+       until the first scroll event. We also re-snap on every refresh so the
+       rest state stays aligned through resizes and window-load events. */
+    const snapToSlot = () => {
+      const r = startRect();
+      gsap.set(card, {
+        top: r.top, left: r.left, width: r.width, height: r.height,
+        "--media-pct": restMediaPct() + "%",
+        "--text-op": 1,
+      });
+    };
+    snapToSlot();
+    ScrollTrigger.addEventListener("refreshInit", snapToSlot);
+    // Also re-snap once the page is fully loaded (images / video metadata can
+    // shift the slot's computed position after first paint).
+    window.addEventListener("load", () => {
+      snapToSlot();
+      ScrollTrigger.refresh();
+    });
+
     const tl = gsap.timeline({
       defaults: { ease: "power2.out" }, // smooths acceleration slightly vs. linear
       scrollTrigger: {
