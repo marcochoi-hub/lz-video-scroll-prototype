@@ -96,7 +96,28 @@ if (!window.gsap || !window.ScrollTrigger) {
       0
     );
 
+    /* ------- Cream section pushes the card up ------- */
+    /* Starts when .next's top edge reaches the card's bottom edge (so they
+       visually "touch"), ends when .next's top reaches the top of the
+       viewport (card fully off-screen above). Scrubbed + reversible. */
+    const pushTween = gsap.fromTo(card,
+      { top: () => endRect().top },
+      {
+        top: () => -endRect().height,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".next",
+          start: () => `top ${endRect().top + endRect().height}px`,
+          end: "top top",
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        },
+      }
+    );
+
     return () => {
+      pushTween.scrollTrigger?.kill();
+      pushTween.kill();
       gsap.set(card, { clearProps: "top,left,width,height,--media-pct,--text-op" });
     };
   });

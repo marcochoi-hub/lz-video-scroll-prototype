@@ -176,22 +176,27 @@ body {
 }
 
 /* ==========================================================================
-   Scroll spacer + navy next section
+   Scroll spacer + cream next section
+   --------------------------------------------------------------------------
+   .next sits BELOW the fixed card in stacking order (z-index 1) so that as
+   its top edge rises into view it appears to push the card up off-screen
+   while the card remains visible above it.
    ========================================================================== */
-.scroll-spacer { height: 220vh; }
+.scroll-spacer { height: 320vh; }      /* slower pacing */
 
 .next {
   position: relative;
-  z-index: 20;
-  background: #0b1534;
-  color: #f6f5f1;
+  z-index: 1;
+  background: #FFF3EB;
+  color: #0b1534;
   min-height: 100vh;
   display: grid;
   place-items: center;
   padding: 80px 40px;
+  border-top: 1px solid rgba(11, 21, 52, 0.06);
 }
 .next__inner { max-width: 720px; text-align: center; }
-.next h2 { font-size: clamp(32px, 4vw, 56px); margin: 0; }
+.next h2 { font-size: clamp(32px, 4vw, 56px); margin: 0; font-weight: 600; letter-spacing: -0.02em; }
 
 /* ==========================================================================
    Responsive
